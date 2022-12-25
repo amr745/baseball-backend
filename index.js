@@ -4,10 +4,13 @@
 // get .env variables
 require("dotenv").config()
 // pull PORT from .env, give default value of 3001
+const PORT = process.env.PORT || 3001;
 // pull DATABASE_URL from .env
-const { PORT = 3001, DATABASE_URL } = process.env
+const connectDB = require('./config/connection');
 // import express
 const express = require("express")
+// import colors
+const colors = require('colors');
 // create application object
 const app = express()
 // import mongoose
@@ -15,17 +18,6 @@ const mongoose = require("mongoose")
 // import middlware
 const cors = require("cors")
 const morgan = require("morgan")
-
-///////////////////////////////
-// DATABASE CONNECTION
-////////////////////////////////
-// Establish Connection
-mongoose.connect(DATABASE_URL)
-// Connection Events
-mongoose.connection
-  .on("open", () => console.log("You are connected to MongoDB"))
-  .on("close", () => console.log("You are disconnected from MongoDB"))
-  .on("error", (error) => console.log(error))
     
   ///////////////////////////////
   // MiddleWare
@@ -46,4 +38,15 @@ app.use('/', playersRouter);
 ///////////////////////////////
 // LISTENER
 ////////////////////////////////
-app.listen(PORT, () => console.log(`listening on PORT ${PORT}`))
+const start = async () => {
+  try {
+    connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is live on port: ${PORT}`)
+    })
+  } catch (error) {
+    console.log(`Catch error: ${error}`)
+  }
+};
+
+start();
