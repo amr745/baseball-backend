@@ -40,56 +40,8 @@ const Players = require("./models/PlayersSchema")
 ///////////////////////////////
 // ROUTES
 ////////////////////////////////
-// create a test route
-app.get("/", (req, res) => {
-  res.send("hello world")
-})
-
-// PLAYERS INDEX ROUTE
-app.get("/players", async (req, res) => {
-    try {
-      // send all players
-      res.json(await Players.find({}))
-    } catch (error) {
-      //send error
-      res.status(400).json(error)
-    }
-  })
-  
-  // PLAYERS CREATE ROUTE
-  app.post("/players", async (req, res) => {
-    try {
-      // send all players
-      res.json(await Players.create(req.body))
-    } catch (error) {
-      //send error
-      res.status(400).json(error)
-    }
-  })
-
-  // PLAYERS DELETE ROUTE
-app.delete("/players/:id", async (req, res) => {
-    try {
-      // send all players
-      res.json(await Players.findByIdAndDelete(req.params.id))
-    } catch (error) {
-      //send error
-      res.status(400).json(error)
-    }
-  })
-  
-  // PLAYERS UPDATE ROUTE
-  app.put("/players/:id", async (req, res) => {
-    try {
-      // send all players
-      res.json(
-        await Players.findByIdAndUpdate(req.params.id, req.body, { new: true })
-      )
-    } catch (error) {
-      //send error
-      res.status(400).json(error)
-    }
-  })
+const playersRouter = require('./routes/playersRouter');
+app.use('/', playersRouter);
 
 ///////////////////////////////
 // LISTENER
