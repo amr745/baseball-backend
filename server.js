@@ -26,25 +26,16 @@ mongoose.connection
   .on("open", () => console.log("You are connected to MongoDB"))
   .on("close", () => console.log("You are disconnected from MongoDB"))
   .on("error", (error) => console.log(error))
-
-///////////////////////////////
-// MODELS
-////////////////////////////////
-const PlayersSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    position: String,
-    team: String,
-  })
-  
-  const Players = mongoose.model("Players", PlayersSchema)
-  
+    
   ///////////////////////////////
   // MiddleWare
   ////////////////////////////////
   app.use(cors()) // to prevent cors errors, open access to all origins
   app.use(morgan("dev")) // logging
   app.use(express.json()) // parse json bodies
+
+// Import JSON files
+const Players = require("./models/PlayersSchema")
 
 ///////////////////////////////
 // ROUTES
@@ -70,6 +61,30 @@ app.get("/players", async (req, res) => {
     try {
       // send all players
       res.json(await Players.create(req.body))
+    } catch (error) {
+      //send error
+      res.status(400).json(error)
+    }
+  })
+
+  // PLAYERS DELETE ROUTE
+app.delete("/players/:id", async (req, res) => {
+    try {
+      // send all players
+      res.json(await Players.findByIdAndDelete(req.params.id))
+    } catch (error) {
+      //send error
+      res.status(400).json(error)
+    }
+  })
+  
+  // PLAYERS UPDATE ROUTE
+  app.put("/players/:id", async (req, res) => {
+    try {
+      // send all players
+      res.json(
+        await Players.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      )
     } catch (error) {
       //send error
       res.status(400).json(error)
