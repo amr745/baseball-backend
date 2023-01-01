@@ -1,9 +1,20 @@
 // Import JSON files
 const Players = require("../models/PlayersSchema")
+const playersData = require('../data/playersData')
 
 ///////////////////////////////
 // CONTROLLERS
 ///////////////////////////////
+
+// SEED
+const seed = async (req, res) => {
+  try {
+    await Players.deleteMany({});
+    res.status(201).json(await Players.create(playersData))
+  } catch (error) {
+    res.status(400).json(error)
+  }
+};
 
 // INDEX
 const index = async (req, res) => {
@@ -62,6 +73,7 @@ const show = async (req, res) => {
 
   module.exports = {
     index,
+    seed,
     delete: deletePlayer,
     update,
     create,
