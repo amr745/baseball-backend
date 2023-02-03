@@ -25,7 +25,7 @@ const playersData = [
     },
     {
         name: "Jo Deluca",
-        image: "/images/Lupe.jpg",
+        image: "/images/Jo.jpg",
         position: "Third Baseman",
         team: "/images/blue.png",
     },
