@@ -23,7 +23,12 @@ const playersData = [
         position: "Pitcher",
         team: "/images/peaches.png",
     },
-
+    {
+        name: "Jo Deluca",
+        image: "/images/Lupe.jpg",
+        position: "Third Baseman",
+        team: "/images/blue.png",
+    },
 ]
 
 module.exports = playersData;
